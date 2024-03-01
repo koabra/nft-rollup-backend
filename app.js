@@ -32,7 +32,11 @@ let allowedOrigins;
 if (process.env.DEPLOYMENT_MODE == "PRODUCTION") {
   allowedOrigins = [""];
 } else {
-  allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
+  allowedOrigins = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:5173",
+  ];
 }
 
 const corsOptions = {
