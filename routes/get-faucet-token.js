@@ -5,22 +5,23 @@ var router = express.Router();
 const { callFaucet } = require("../helpers/callFaucet");
 
 router.post("/", async (req, res) => {
-  console.log("Called Public API endpoint with... ");
-  console.log(req.body);
-
+  console.log("Called Public API endpoint... ");
+  let respFromFaucet;
   try {
+    respFromFaucet = await callFaucet(req.body);
+    console.log("Response from function", respFromFaucet);
   } catch (e) {
-    console.log(e);
+    console.log("Error from API endpoint", e);
   }
 
-  res.send({
-    message: "Dripped successfully!",
-    faucetResponse: {
-      id: 1,
-      jsonrpc: "2.0",
-      result: "0x1",
-    },
-  });
+  if (respFromFaucet) {
+    res.send({
+      message: "Dripped successfully!",
+      faucetResponse: respFromFaucet,
+    });
+  } else {
+    res.status(500).send({ message: "Error: Couldn't get the faucet!" });
+  }
 });
 
 module.exports = router;
